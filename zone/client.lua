@@ -25,21 +25,21 @@ local closestZone = 1
 --------------------------------------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------------------------------
 
-Citizen.CreateThread(function()
-	while not NetworkIsPlayerActive(PlayerId()) do
-		Citizen.Wait(0)
-	end
+--Citizen.CreateThread(function()
+	--while not NetworkIsPlayerActive(PlayerId()) do
+		--Citizen.Wait(0)
+	--end
 	
-	for i = 1, #zones, 1 do
-		local szBlip = AddBlipForCoord(zones[i].x, zones[i].y, zones[i].z)
-		SetBlipAsShortRange(szBlip, true)
-		SetBlipColour(szBlip, 2)  --Change the blip color: https://gtaforums.com/topic/864881-all-blip-color-ids-pictured/
-		SetBlipSprite(szBlip, 398) -- Change the blip itself: https://marekkraus.sk/gtav/blips/list.html
-		BeginTextCommandSetBlipName("STRING")
-		AddTextComponentString("SAFE ZONE") -- What it will say when you hover over the blip on your map.
-		EndTextCommandSetBlipName(szBlip)
-	end
-end)
+	--for i = 1, #zones, 1 do
+		--local szBlip = AddBlipForCoord(zones[i].x, zones[i].y, zones[i].z)
+		--SetBlipAsShortRange(szBlip, true)
+		--SetBlipColour(szBlip, 2)  --Change the blip color: https://gtaforums.com/topic/864881-all-blip-color-ids-pictured/
+		--SetBlipSprite(szBlip, 398) -- Change the blip itself: https://marekkraus.sk/gtav/blips/list.html
+		--BeginTextCommandSetBlipName("STRING")
+		--AddTextComponentString("SAFE ZONE") -- What it will say when you hover over the blip on your map.
+		--EndTextCommandSetBlipName(szBlip)
+	--end
+--end)
 
 --------------------------------------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------------------------------
@@ -90,10 +90,10 @@ Citizen.CreateThread(function()
 				ClearPlayerWantedLevel(PlayerId())
 				SetCurrentPedWeapon(player,GetHashKey("WEAPON_UNARMED"),true)
 				TriggerEvent("pNotify:SendNotification",{
-					text = "<b style='color:#1E90FF'>You are in a SafeZone</b>",
-					type = "success",
-					timeout = (3000),
-					layout = "bottomcenter",
+					text = "Você está em uma Safezone. Siga as regras",
+					type = "warning",
+					timeout = (2000),
+					layout = "centerLeft",
 					queue = "global"
 				})
 				notifIn = true
@@ -103,10 +103,10 @@ Citizen.CreateThread(function()
 			if not notifOut then
 				NetworkSetFriendlyFireOption(true)
 				TriggerEvent("pNotify:SendNotification",{
-					text = "<b style='color:#1E90FF'>You are in NO LONGER a SafeZone</b>",
-					type = "error",
-					timeout = (3000),
-					layout = "bottomcenter",
+					text = "Você não está mais na Safezone",
+					type = "warning",
+					timeout = (2000),
+					layout = "centerLeft",
 					queue = "global"
 				})
 				notifOut = true
@@ -120,18 +120,18 @@ Citizen.CreateThread(function()
 			if IsDisabledControlJustPressed(2, 37) then --if Tab is pressed, send error message
 				SetCurrentPedWeapon(player,GetHashKey("WEAPON_UNARMED"),true) -- if tab is pressed it will set them to unarmed (this is to cover the vehicle glitch until I sort that all out)
 				TriggerEvent("pNotify:SendNotification",{
-					text = "<b style='color:#1E90FF'>You can not use weapons in a Safe Zone</b>",
-					type = "error",
-					timeout = (3000),
-					layout = "bottomcenter",
+					text = "Você não pode usar armas nessa área",
+					type = "info",
+					timeout = (2000),
+					layout = "centerLeft",
 					queue = "global"
 				})
 			end
 			if IsDisabledControlJustPressed(0, 106) then --if LeftClick is pressed, send error message
 				SetCurrentPedWeapon(player,GetHashKey("WEAPON_UNARMED"),true) -- If they click it will set them to unarmed
 				TriggerEvent("pNotify:SendNotification",{
-					text = "<b style='color:#1E90FF'>You can not do that in a Safe Zone</b>",
-					type = "error",
+					text = "Ação impossível, você está na Safezone",
+					type = "info",
 					timeout = (3000),
 					layout = "bottomcenter",
 					queue = "global"
@@ -139,9 +139,9 @@ Citizen.CreateThread(function()
 			end
 		end
 		-- Comment out lines 142 - 145 if you dont want a marker.
-	 	if DoesEntityExist(player) then	      --The -1.0001 will place it on the ground flush		-- SIZING CIRCLE |  x    y    z | R   G    B   alpha| *more alpha more transparent*
-	 		DrawMarker(1, zones[closestZone].x, zones[closestZone].y, zones[closestZone].z-1.0001, 0, 0, 0, 0, 0, 0, 100.0, 100.0, 2.0, 13, 232, 255, 155, 0, 0, 2, 0, 0, 0, 0) -- heres what all these numbers are. Honestly you dont really need to mess with any other than what isnt 0.
+	 	--if DoesEntityExist(player) then	      --The -1.0001 will place it on the ground flush		-- SIZING CIRCLE |  x    y    z | R   G    B   alpha| *more alpha more transparent*
+	 		--DrawMarker(1, zones[closestZone].x, zones[closestZone].y, zones[closestZone].z-1.0001, 0, 0, 0, 0, 0, 0, 100.0, 100.0, 2.0, 13, 232, 255, 155, 0, 0, 2, 0, 0, 0, 0) -- heres what all these numbers are. Honestly you dont really need to mess with any other than what isnt 0.
 	 		--DrawMarker(type, float posX, float posY, float posZ, float dirX, float dirY, float dirZ, float rotX, float rotY, float rotZ, float scaleX, float scaleY, float scaleZ, int red, int green, int blue, int alpha, BOOL bobUpAndDown, BOOL faceCamera, int p19(LEAVE AS 2), BOOL rotate, char* textureDict, char* textureName, BOOL drawOnEnts)
-	 	end
+	 	--end
 	end
 end)
